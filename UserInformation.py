@@ -1,9 +1,6 @@
 import requests
 
 
-
-# next step, create class, stand up class w/ calls
-
 class UserRequests(object):
 	def __init__(self, username):
 		self.username = '@' + username
@@ -30,4 +27,5 @@ class UserRequests(object):
 	def get_user_trends(self):
 		user_trends = requests.get(self.user_request_url_base + '/trend')
 		return user_trends
+
 
