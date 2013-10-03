@@ -1,25 +1,33 @@
 import requests
 
-def get_user_information(username):
-	username = '@' + username
-	user_information = requests.get('https://jawbone.com/nudge/api/users/username')
-	return user_information
 
-def get_user_friends(username):
-	user = '@' + username
-	user_friends = requests.get('https://jawbone.com/nudge/api/users/username/friends')
-	return user_friends
-
-def get_user_mood(username):
-	user = '@' + username
-	user_mood = requests.get('https://jawbone.com/nudge/api/users/username/mood')
-	return user_mood
-
-def get_user_trends(username):
-	user = '@' + username
-	user_trends = requests.get('https://jawbone.com/nudge/api/users/username/trend')
-	return user_trends
 
 # next step, create class, stand up class w/ calls
 
+class UserRequests(object):
+	def __init__(self, username):
+		self.username = '@' + username
+		self.user_information = None
+		self.user_mood = None
+		self.user_trends = None
+
+	@property
+	def user_request_url_base(self):
+		return 'https://jawbone.com/nudge/api/users/%s' % self.username
+
+	def get_user_information(self):
+		user_information = requests.get(self.user_request_url_base)
+		return user_information
+
+	def get_user_friends(self):
+		user_friends = requests.get(self.user_request_url_base + '/friends')
+		return user_friends
+
+	def get_user_mood(self):
+		user_mood = requests.get(self.user_request_url_base + '/mood')
+		return user_mood
+
+	def get_user_trends(self):
+		user_trends = requests.get(self.user_request_url_base + '/trend')
+		return user_trends
 
