@@ -1,5 +1,9 @@
 import requests
 
+#TO-DO Add Headers to each request
+#TO-DO Make Call Subclass of 
+
+
 # USER INFORMATION
 class UserRequests(object):
 	def __init__(self, username):
