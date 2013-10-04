@@ -1,3 +1,5 @@
+**This repo is currently a work-in-progress.  Please beware there may be unknown issues, or incomplete requests associated with the repo at this time.**
+
 Jawbone Up  Python Client
 =================
 
