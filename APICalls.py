@@ -6,8 +6,8 @@ import requests
 
 # USER INFORMATION
 class UserRequests(object):
-	def __init__(self, username):
-		self.username = '@' + username
+	def __init__(self, username, auth_token):
+		self.user_data = { '"@" + username': auth_token }
 		self.user_information = None
 		self.user_mood = None
 		self.user_trends = None
@@ -73,12 +73,7 @@ def get_user_workout_graphs(workout_xid):
 
 def get_workout_intensity(workout_xid):
 	workout_id = workout_xid
+    header = { ''}
 	workout_intensity = requests.get('https://jawbone.com/nudge/api/v.1.0/workouts/{%s}/snapshot' % workout_id)
 	return workout_intensity.json
-
-
-def create_new_workout():
-	
-
-
 
