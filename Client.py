@@ -6,6 +6,8 @@ class Client(object):
         self.username = '@me'
         self.token = authorization_token
         self.auth_header = {'Authorization': 'Bearer %s' % self.token}
+        self.version = 'v.1.0/'
+        self.api_url_base = 'https://jawbone.com/nudge/api/%s/' % self.version
 
     @property
     def user_request_url_base(self):
@@ -16,9 +18,4 @@ class Client(object):
         return user_information.json
 
 
-class JawboneAPI(object):
-    def __init__(self, Client):
-        self.version = 'v.1.0/'
-        self.api_url_base = 'https://jawbone.com/nudge/api/%s/' % self.version
-        self.header = Client.auth_header
 
