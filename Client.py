@@ -6,8 +6,10 @@ class Client(object):
         self.username = '@me'
         self.token = authorization_token
         self.auth_header = {'Authorization': 'Bearer %s' % self.token}
+        self.content_header = {'Content-Type': 'multipart/form-data'}
         self.version = 'v.1.0/'
         self.api_url_base = 'https://jawbone.com/nudge/api/%s' % self.version
+
 
     # USER REQUESTS
     @property
@@ -87,16 +89,17 @@ class Client(object):
         return sleep_phases_request.json()
 
     #MEALS
-
     def get_specific_meal(self, meal_xid):
         specific_meal_request = requests.get(self.api_url_base + 'meals/' + '{%s}' % meal_xid, headers=self.auth_header)
         return specific_meal_request.json()
 
-    def post_user_meal(self, meal_xid, meal):
+    def post_user_meal(self, meal):
         data = {'meal': meal}
-        content_header = {'Content-Type': 'multipart/form-data'}
-        post_headers = {'auth_header': self.auth_header, 'content_header': content_header}
-        user_meal_post = requests.post(self.api_url_base + 'meals/' + '{%s}' + '/image' % meal_xid, data=data, headers=post_headers)
-        return user_meal_post.status_code
+        post_headers = dict(self.content_header.items() + self.auth_header.items())
+        request_url = self.api_url_base + 'meals'
+        user_meal_post = requests.post(request_url, data=data, headers=post_headers)
+        return user_meal_post.text
+
+
 
 
