@@ -7,7 +7,7 @@ class Client(object):
         self.token = authorization_token
         self.auth_header = {'Authorization': 'Bearer %s' % self.token}
         self.version = 'v.1.0/'
-        self.api_url_base = 'https://jawbone.com/nudge/api/%s/' % self.version, 
+        self.api_url_base = 'https://jawbone.com/nudge/api/%s' % self.version
 
     # USER REQUESTS
     @property
@@ -16,61 +16,87 @@ class Client(object):
 
     def get_user_information(self):
         user_information_request = requests.get(self.user_request_url_base, headers=self.auth_header)
-        return user_information.json
+        return user_information_request.json()
 
     def get_user_friends(self):
         user_friends_request = requests.get(self.user_request_url_base + '/friends', headers=self.auth_header)
-        return user_friends_reqeust.json
+        return user_friends_request.Response.json()
 
     def get_user_mood(self):
         user_mood_request = requests.get(self.user_request_url_base + '/mood', headers=self.auth_header)
-        return user_mood_request.json
+        return user_mood_request.json()
 
     def get_user_trends(self):
         user_trends_request = requests.get(self.user_request_url_base + '/trend', headers=self.auth_header)
-        return user_trends_request.json
+        return user_trends_request.json()
 
     def get_user_moves(self):
         user_moves_request = requests.get(self.user_request_url_base + '/moves', headers=self.auth_header)
-        return user_moves_request.json
+        return user_moves_request.json()
 
     def get_user_workouts(self):
         user_workouts_request = requests.get(self.user_request_url_base + '/workouts', headers=self.auth_header)
-        return user_workouts_request.json
+        return user_workouts_request.json()
 
-        # MOVES
+    def get_user_sleep_list(self):
+        user_sleep_list_request = requests.get(self.user_request_url_base + '/sleeps', headers=self.auth_header)
+        return user_sleep_list_request.json()
+
+    def get_user_meals(self):
+        user_sleep_list_request = requests.get(self.user_request_url_base + '/meals', headers=self.auth_header)
+        return user_sleep_list_request.json()
+
+
+    # MOVES
     def get_specific_move(self, move_xid):
-        move_id = move_xid
-        specific_move_request = requests.get(self.api_url_base +  '%s/%s' % ('moves',  move_id), headers=self.auth_header)
-        return specific_move_request.json
+        specific_move_request = requests.get(self.api_url_base + 'moves/' + '{%s}' % move_xid, headers=self.auth_header)
+        return specific_move_request.json()
 
     def get_move_graphs(self, move_xid):
-        move_id = move_xid
-        move_graphs_request = requests.get(self.api_url_base + '%s/%s/%s' % ('moves',  move_id, 'image'), headers=self.auth_header)
-        return move_graphs.json
+        move_graphs_request = requests.get(self.api_url_base + 'moves/' + '{%s}' + '/image' % move_xid, headers=self.auth_header)
+        return move_graphs_request.json()
 
     def get_move_intensity(self, move_xid):
-        move_id = move_xid
-        move_intensity_request = requests.get(self.api_url_base + '%s/%s/%s' % ('moves',  move_id, 'snapshot'), headers=self.auth_header)   
-        return move_intensity.json
+        move_intensity_request = requests.get(self.api_url_base + 'moves/' + '{%s}' + '/snapshot' % move_xid, headers=self.auth_header)
+        return move_intensity_request.json()
 
     #  WORKOUTS
     def get_specific_workout(self, workout_xid):
-        workout_id = workout_xid
-        specific_workout_request = requests.get(self.api_url_base+  '%s/%s' % ('workouts',  workout_id), headers=self.auth_header)
-        return specific_workout.json
+        specific_workout_request = requests.get(self.api_url_base + 'workouts/' + '{%s}' % workout_xid, headers=self.auth_header)
+        return specific_workout_request.json()
 
     def get_user_workout_graphs(self, workout_xid):
-        workout_id = workout_xid
-        workout_graphs_request = requests.get(self.api_url_base + '%s/%s/%s' % ('workouts',  workout_id, 'image'), headers=self.auth_header)
-        return workout_graphs.json
+        workout_graphs_request = requests.get(self.api_url_base + 'workouts/' + '{%s}' + '/image' % workout_xid, headers=self.auth_header)
+        return workout_graphs_request.json()
 
     def get_workout_intensity(self, workout_xid):
-        workout_id = workout_xid
-        workout_intensity_request = requests.get(self.api_url_base + '%s/%s/%s' % ('workouts',  workout_id, 'snapshot'), headers=self.auth_header)
-        return workout_intensity.json
+        workout_intensity_request = requests.get(self.api_url_base + 'workouts/' + '{%s}' + '/snapshot' % workout_xid, headers=self.auth_header)
+        return workout_intensity_request.json()
 
+    #SLEEP
+    def get_specific_sleep(self, sleep_xid):
+        specific_workout_request = requests.get(self.api_url_base + 'sleeps/' + '{%s}' % sleep_xid, headers=self.auth_header)
+        return specific_workout_request.json()
 
+    def get_user_workout_graphs(self, sleep_xid):
+        sleep_graphs_request = requests.get(self.api_url_base + 'sleeps/' + '{%s}' + '/image' % sleep_xid, headers=self.auth_header)
+        return sleep_graphs_request.json()
 
+    def get_workout_intensity(self, sleep_xid):
+        sleep_phases_request = requests.get(self.api_url_base + 'sleeps/' + '{%s}' + '/snapshot' % sleep_xid, headers=self.auth_header)
+        return sleep_phases_request.json()
+
+    #MEALS
+
+    def get_specific_meal(self, meal_xid):
+        specific_meal_request = requests.get(self.api_url_base + 'meals/' + '{%s}' % meal_xid, headers=self.auth_header)
+        return specific_meal_request.json()
+
+    def post_user_meal(self, meal_xid, meal):
+        data = {'meal': meal}
+        content_header = {'Content-Type': 'multipart/form-data'}
+        post_headers = {'auth_header': self.auth_header, 'content_header': content_header}
+        user_meal_post = requests.post(self.api_url_base + 'meals/' + '{%s}' + '/image' % meal_xid, data=data, headers=post_headers)
+        return user_meal_post.status_code
 
 
